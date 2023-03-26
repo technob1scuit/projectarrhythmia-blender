@@ -10,6 +10,7 @@ bl_info = {
 }
 
 import bpy
+import importlib
 
 classes = []
 
@@ -22,4 +23,5 @@ def unregister():
         bpy.utils.unregister_class(cls)
 
 if __name__ == "__main__":
+    print("hi there")
     register()
