@@ -1,5 +1,5 @@
-import PAShape
+import PAObject
 
-class PARectangle(PAShape):
+class PAShape(PAObject):
     def __init__(self) -> None:
         super().__init__()

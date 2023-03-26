@@ -1,2 +1,6 @@
 # start file for testing
 start.bat
+
+__pycache__/
+
+.vscode/

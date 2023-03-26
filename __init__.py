@@ -6,13 +6,31 @@ bl_info = {
     "blender": (3, 4, 0),
     "location": "somewhere",
     "warning": "This addon is still in HEAVY development - bugs are incredibly likely lol",
-    "category": "this deserves its own category"
+    "category": "3D View"
 }
 
-import bpy
-import importlib
+import sys
+import os
 
-classes = []
+# import modules
+if "bpy" in locals():
+    import importlib
+    importlib.reload(util)
+    importlib.reload(PA_PT_ContextControlPanel)
+else:
+    print("projectarrhythmia >> attempting module imports")
+    from . import util
+    util.debug("Util functions imported successfully")
+
+    from .classes.PAControl import PA_PT_ContextControlPanel
+
+import bpy
+
+imports = []
+
+classes = [
+    PA_PT_ContextControlPanel
+]
 
 def register():
     for cls in classes:
@@ -23,5 +41,4 @@ def unregister():
         bpy.utils.unregister_class(cls)
 
 if __name__ == "__main__":
-    print("hi there")
     register()
