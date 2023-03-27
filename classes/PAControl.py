@@ -2,7 +2,7 @@ from bpy.types import Panel
 
 class PA_PT_ContextControlPanel(Panel):
     bl_label = "Control Panel"
-    bl_idname = "PT_PAContextControlPanel"
+    bl_idname = "PA_PT_ContextControlPanel"
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "Project Arrhythmia"
