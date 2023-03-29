@@ -3,8 +3,8 @@ bl_info = {
     "description": "Implements an editor for Project Arrhythmia levels, prefabs and themes.",
     "author": "technobiscuit",
     "version": (0, 0, 1),
-    "blender": (3, 4, 0),
-    "location": "somewhere",
+    "blender": (3, 5, 0),
+    "location": "View3D > Project Arrhythmia",
     "warning": "This addon is still in HEAVY development - bugs are incredibly likely lol",
     "category": "3D View"
 }
@@ -50,9 +50,6 @@ def register():
         bpy.utils.register_class(cls)
     
     util.info("Registered successfully")
-    util.error("test")
-    util.debug("test")
-    util.warn("test")
 
 def unregister():
     bpy.utils.previews.remove(globals.custom_icons)
