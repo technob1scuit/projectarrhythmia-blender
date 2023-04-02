@@ -21,7 +21,10 @@ class PA_AddonPrefs(types.AddonPreferences):
         default="%programfiles(x86)%\\Steam\\steamapps\\common\\Project Arrhythmia\\beatmaps\\themes\\"
     )
 
-    # player colours
+
+
+
+    ########## player colours #############
 
     defaultPlayerOneColour: props.FloatVectorProperty(
         name="Player 1",
@@ -53,13 +56,22 @@ class PA_AddonPrefs(types.AddonPreferences):
         default=[0.58, 0.847, 0.859]
     )
 
+    defaultGUIAccentColour: props.FloatVectorProperty(
+        name="GUI accent",
+        subtype="COLOR",
+        default=[0.259, 0.259, 0.259]
+    )
+
     defaultBGColour: props.FloatVectorProperty(
         name="BG",
         subtype="COLOR",
         default=[0.129, 0.129, 0.129]
     )
 
-    # object colours
+
+
+
+    ############ object colours #############
 
     defaultObject0Colour: props.FloatVectorProperty(
         name="Object 1",
@@ -115,9 +127,127 @@ class PA_AddonPrefs(types.AddonPreferences):
         default=[0.937, 0.922, 0.937]
     )
 
-    def draw(self, context):
+
+    
+
+
+    ############ bg object colours #############
+
+    defaultParallax0Colour: props.FloatVectorProperty(
+        name="Parallax 1",
+        subtype="COLOR",
+        default=[0.753, 0.675, 0.882]
+    )
+
+    defaultParallax1Colour: props.FloatVectorProperty(
+        name="Parallax 2",
+        subtype="COLOR",
+        default=[0.945, 0.482, 0.722]
+    )
+
+    defaultParallax2Colour: props.FloatVectorProperty(
+        name="Parallax 3",
+        subtype="COLOR",
+        default=[0.184, 0.259, 0.427]
+    )
+
+    defaultParallax3Colour: props.FloatVectorProperty(
+        name="Parallax 4",
+        subtype="COLOR",
+        default=[0.004, 0.694, 0.694]
+    )
+
+    defaultParallax4Colour: props.FloatVectorProperty(
+        name="Parallax 5",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultParallax5Colour: props.FloatVectorProperty(
+        name="Parallax 6",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultParallax6Colour: props.FloatVectorProperty(
+        name="Parallax 7",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultParallax7Colour: props.FloatVectorProperty(
+        name="Parallax 8",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultParallax8Colour: props.FloatVectorProperty(
+        name="Parallax 9",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+
+    ############ effect colours #############
+
+    defaultEffect0Colour: props.FloatVectorProperty(
+        name="Effect 1",
+        subtype="COLOR",
+        default=[0.753, 0.675, 0.882]
+    )
+
+    defaultEffect1Colour: props.FloatVectorProperty(
+        name="Effect 2",
+        subtype="COLOR",
+        default=[0.945, 0.482, 0.722]
+    )
+
+    defaultEffect2Colour: props.FloatVectorProperty(
+        name="Effect 3",
+        subtype="COLOR",
+        default=[0.184, 0.259, 0.427]
+    )
+
+    defaultEffect3Colour: props.FloatVectorProperty(
+        name="Effect 4",
+        subtype="COLOR",
+        default=[0.004, 0.694, 0.694]
+    )
+
+    defaultEffect4Colour: props.FloatVectorProperty(
+        name="Effect 5",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultEffect5Colour: props.FloatVectorProperty(
+        name="Effect 6",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultEffect6Colour: props.FloatVectorProperty(
+        name="Effect 7",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultEffect7Colour: props.FloatVectorProperty(
+        name="Effect 8",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    defaultEffect8Colour: props.FloatVectorProperty(
+        name="Effect 9",
+        subtype="COLOR",
+        default=[0.937, 0.922, 0.937]
+    )
+
+    def draw(self, context) -> None:
+
         layout = self.layout
-        layout.label(text="Game compatibility settings", icon_value=globals.custom_icons["pa_logo"].icon_id)
+        layout.label(text="Game compatibility settings", icon_value=globals.customIcons["pa_logo"].icon_id)
         # file paths
         box = layout.box()
         box.label(text="Default file paths used for loading/saving", icon="FILE_FOLDER")
@@ -127,13 +257,23 @@ class PA_AddonPrefs(types.AddonPreferences):
 
         # default theme settings
         box = layout.box()
-        box.label(text="Default theme settings", icon="EYEDROPPER")
+        box.label(text="Default theme settings", icon="RESTRICT_COLOR_ON")
         row = box.row()
+        split = row.split(factor=0.5)
+        col = split.column()
+        row = col.row()
         row.prop(self, "defaultGUIColour")
+        row = col.row()
+        row.prop(self, "defaultGUIAccentColour", text="GUI accent (vgt themes only)")
+        col = split.column()
+        row = col.row()
         row.prop(self, "defaultBGColour")
+
+
         playerBox = box.box()
         playerBox.label(text="Default player colours", icon="OUTLINER_OB_ARMATURE")
         row = playerBox.row()
+
         split = row.split(factor=0.5)
         col = split.column()
         row = col.row()
@@ -173,3 +313,63 @@ class PA_AddonPrefs(types.AddonPreferences):
         row.prop(self, "defaultObject7Colour")
         row = col.row()
         row.prop(self, "defaultObject8Colour")
+
+
+        parallaxBox = box.box()
+        parallaxBox.label(text="Default parallax/background object colours", icon="MOD_OPACITY")
+        
+        row = parallaxBox.row()
+        split = row.split(factor=0.5)
+        col = split.column()
+        row = col.row()
+        row.prop(self, "defaultParallax0Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax1Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax2Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax3Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax4Colour")
+        
+        col = split.column()
+
+        row = col.row()
+        row.prop(self, "defaultParallax5Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax6Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax7Colour")
+        row = col.row()
+        row.prop(self, "defaultParallax8Colour")
+
+
+
+        
+        effectBox = box.box()
+        effectBox.label(text="Default effect colours (vgt themes only)", icon="SHADERFX")
+        
+        row = effectBox.row()
+        split = row.split(factor=0.5)
+        col = split.column()
+        row = col.row()
+        row.prop(self, "defaultEffect0Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect1Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect2Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect3Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect4Colour")
+        
+        col = split.column()
+
+        row = col.row()
+        row.prop(self, "defaultEffect5Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect6Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect7Colour")
+        row = col.row()
+        row.prop(self, "defaultEffect8Colour")

@@ -1,4 +1,8 @@
-custom_icons = None
+customIcons = None
+themeHandler = None
+packageName = "projectarrhythmia"
 
 def init():
-    global custom_icons
+    global customIcons
+    global themeHandler
+    global packageName

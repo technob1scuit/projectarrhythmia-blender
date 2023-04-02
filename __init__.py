@@ -18,6 +18,9 @@ if "bpy" in locals():
     importlib.reload(util)
     importlib.reload(PA_PT_ContextControlPanel)
     importlib.reload(PA_AddonPrefs)
+    importlib.reload(PA_PT_ThemePanel)
+    importlib.reload(PA_PT_ThemeEditingPanel)
+    importlib.reload(PANewThemeOperator)
 else:
     print("projectarrhythmia >> attempting module imports")
     from . import util
@@ -25,34 +28,52 @@ else:
 
     from .classes.PAControl import PA_PT_ContextControlPanel
     from .configuration import PA_AddonPrefs
+    from .classes.themes.PAThemePanel import PA_PT_ThemePanel, PA_PT_ThemeEditingPanel
+    from .classes.themes.PAThemeOperators import PANewThemeOperator
+
+    from .classes.themes.PAThemeHandler import PAThemeHandler
 
 import bpy
 
-imports = []
-
 classes = [
     PA_PT_ContextControlPanel,
-    PA_AddonPrefs
+    PA_AddonPrefs,
+    PA_PT_ThemePanel,
+    PA_PT_ThemeEditingPanel,
+    PANewThemeOperator
 ]
 
 from . import globals
 
 def register():
     globals.init()
-    globals.custom_icons = bpy.utils.previews.new()
+
+    globals.customIcons = bpy.utils.previews.new()
+
     icons_dir = os.path.join(os.path.dirname(__file__), "icons")
 
-    globals.custom_icons.load("pa_logo", os.path.join(icons_dir, "pa_logo.png"), "IMAGE")
+    globals.customIcons.load("pa_logo", os.path.join(icons_dir, "pa_logo.png"), "IMAGE")
 
     util.debug("Registered icons")
 
+
     for cls in classes:
         bpy.utils.register_class(cls)
+
+
+    globals.themeHandler = PAThemeHandler()
+    
+    globals.themeHandler.newTheme()
+
+    test2 = globals.themeHandler.newTheme()
+    test2.themeData["name"] = "this is a test"
     
     util.info("Registered successfully")
 
 def unregister():
-    bpy.utils.previews.remove(globals.custom_icons)
+    global customIcons
+    
+    bpy.utils.previews.remove(globals.customIcons)
     util.debug("Unregistered icons")
     for cls in classes:
         bpy.utils.unregister_class(cls)

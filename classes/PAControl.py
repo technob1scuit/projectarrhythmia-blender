@@ -1,4 +1,5 @@
 from bpy.types import Panel
+from ..globals import themeHandler
 
 class PA_PT_ContextControlPanel(Panel):
     bl_label = "Control Panel"
@@ -7,7 +8,7 @@ class PA_PT_ContextControlPanel(Panel):
     bl_region_type = "UI"
     bl_category = "Project Arrhythmia"
 
-    def draw(self, context):
+    def draw(self, context) -> None:
         layout = self.layout
 
         row = layout.row()
