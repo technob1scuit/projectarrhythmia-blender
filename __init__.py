@@ -51,10 +51,11 @@ def register():
     globals.init()
 
     globals.customIcons = bpy.utils.previews.new()
+    globals.themeIcons = bpy.utils.previews.new()
 
-    icons_dir = os.path.join(os.path.dirname(__file__), "icons")
+    iconsDir = os.path.join(os.path.dirname(__file__), "icons")
 
-    globals.customIcons.load("pa_logo", os.path.join(icons_dir, "pa_logo.png"), "IMAGE")
+    globals.customIcons.load("pa_logo", os.path.join(iconsDir, "pa_logo.png"), "IMAGE")
 
     util.debug("Registered icons")
 
@@ -62,20 +63,20 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
+    util.info("Registered successfully")
 
     globals.themeHandler = PAThemeHandler()
-    
-    globals.themeHandler.newTheme()
 
-    test2 = globals.themeHandler.newTheme()
-    test2.themeData["name"] = "this is a test"
+    util.info("Loading themes...")
+    globals.themeHandler.loadThemes()
     
-    util.info("Registered successfully")
 
 def unregister():
     global customIcons
     
     bpy.utils.previews.remove(globals.customIcons)
+    bpy.utils.previews.remove(globals.themeIcons)
+
     util.debug("Unregistered icons")
     for cls in classes:
         bpy.utils.unregister_class(cls)

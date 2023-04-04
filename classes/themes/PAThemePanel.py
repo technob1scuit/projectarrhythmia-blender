@@ -28,7 +28,7 @@ class PA_PT_ThemePanel(Panel):
         else:
             for i in range(len(themes)):
                 row = layout.row()
-                row.label(icon="CUBE")
+                row.label(icon_value=themes[i].iconValue)
                 row.label(text=themes[i].themeData["name"])
 
 
