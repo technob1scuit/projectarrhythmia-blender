@@ -2,7 +2,7 @@ bl_info = {
     "name": "PA Editor",
     "description": "Implements an editor for Project Arrhythmia levels, prefabs and themes.",
     "author": "technobiscuit",
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "blender": (3, 5, 0),
     "location": "View3D > Project Arrhythmia",
     "warning": "This addon is still in HEAVY development - bugs are incredibly likely lol",
@@ -114,6 +114,8 @@ def register():
     bpy.types.Scene.lastThemeEditing = bpy.props.IntProperty(
         name="Index of the last theme edited in the loadedThemes list"
     )
+
+    bpy.types.Scene.paCamera = None
 
     # can't load themes on startup because of blender's restrictcontext thing
     # annoying but hey that's just how it is
