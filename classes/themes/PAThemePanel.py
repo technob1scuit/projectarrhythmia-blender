@@ -12,9 +12,10 @@ class PA_PT_ThemePanel(Panel):
 
     def draw(self, context) -> None:
         layout = self.layout
-        box = layout.box()
 
-        self.drawThemeList(box)
+        layout.operator("pa.refresh_theme_list", icon="FILE_REFRESH")
+
+        self.drawThemeList(layout)
 
     def drawThemeList(self, layout: UILayout) -> None:
         themeHandler: PAThemeHandler = globals.themeHandler

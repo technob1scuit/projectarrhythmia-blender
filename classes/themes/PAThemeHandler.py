@@ -3,6 +3,8 @@ import bpy
 import json as json
 from ...globals import packageName
 from random import randint
+import os
+from ...util import debug, error
 
 class PATheme():
     filePath: str
@@ -60,8 +62,36 @@ class PATheme():
     def readFromJSONString(self, inJson: str, format: str = "vgt") -> PATheme:
         return self.readFromJSONObject(json.loads(inJson), format)
 
-    def readFromJSONObject(self, json: dict[str, any], format: str = "vgt"):
-        raise NotImplementedError()
+    def readFromJSONObject(self, json: dict[str, any], format: str = "vgt") -> PATheme:
+        self.themeData = {}
+
+        print(type(bpy.context.preferences.addons[packageName].preferences.defaultGUIColour))
+
+        if format == "lst":
+            self.themeData["name"] = json["name"] or "Unnamed theme"
+            self.themeData["gui"] = json["gui"]
+            self.themeData["bg"] = json["bg"]
+            self.themeData["id"] = json["id"] # isn't even in vgt themes lol
+            for i in range(4):
+                self.themeData["players"][i] = json["players"][i]
+            for i in range(9):
+                self.themeData["objects"][i] = json["objs"][i]
+                self.themeData["bgObjects"][i] = json["bgs"][i]
+        elif format == "vgt":
+            self.themeData["name"] = json["name"]
+            self.themeData["bg"] = json["base_bg"]
+            self.themeData["gui"] = json["base_gui"]
+            self.themeData["guiAccent"] = json["base_gui_accent"]
+            for i in range(4):
+                self.themeData["players"][i] = json["pla"][i]
+            for i in range(9):
+                self.themeData["objects"][i] = json["objs"][i]
+                self.themeData["fx"][i] = json["fs"][i]
+                self.themeData["bgObjects"][i] = json["bg"][i]
+        else:
+            print(f"what- what is a {format}...??")
+
+        return self
 
     def toLSTString(self) -> str:
         outputTheme = {
@@ -96,12 +126,68 @@ class PAThemeHandler():
 
     def __init__(self, customPath: str = None) -> None:
         if (customPath == None):
-            self.themeFolder = bpy.context.preferences.addons[packageName].preferences.themeFolderPath
+            self.themeFolder = os.path.expandvars(bpy.context.preferences.addons[packageName].preferences.themeFolderPath)
         else:
-            self.themeFolder = customPath
+            self.themeFolder = os.path.expandvars(customPath)
+    
+    def loadThemes(self) -> PAThemeHandler:
+        self.loadedThemes = []
 
-    def getAllThemes() -> list[PATheme]:
-        raise NotImplementedError()
+        allFilesInDir = [f for f in os.listdir(self.themeFolder) if os.path.isfile(os.path.join(self.themeFolder, f))]
+
+        if (len(allFilesInDir) != 0):
+            debug("Found following files in themes directory:")
+            for f in allFilesInDir:
+                debug(f)
+        else:
+            debug("No files found in themes directory.")
+            return self
+
+        lstThemes = [a for a in allFilesInDir if a.endswith(".lst")]
+        vgtThemes = [a for a in allFilesInDir if a.endswith(".vgt")]
+        
+        debug(".lst themes found:")
+        for t in lstThemes:
+            debug(t)
+
+        debug(".vgt themes found:")
+        for t in vgtThemes:
+            debug(t)
+        
+        unloadableThemes = []
+
+        # load in lst themes
+        for theme in lstThemes:
+            try:
+                themeObj = self.newTheme()
+
+                content = ""
+                with open(os.path.join(self.themeFolder, theme)) as f:
+                    content = f.read()
+
+                themeObj.readFromJSONString(content, format="lst")
+            except Exception as e:
+                error(f"Error loading lst theme {theme}:\n{str(e)}")
+                unloadableThemes.append(theme)
+
+        # load in vgt themes
+        for theme in vgtThemes:
+            try:
+                themeObj = self.newTheme()
+
+                content = ""
+                with open(os.path.join(self.themeFolder, theme)) as f:
+                    content = f.read()
+
+                themeObj.readFromJSONString(content, format="vgt")
+            except Exception as e:
+                error(f"Error loading lst theme {theme}:\n{str(e)}")
+                unloadableThemes.append(theme)
+
+        return self
+
+    def getAllThemes(self) -> list[PATheme]:
+        return self.loadedThemes
     
     def newTheme(self) -> PATheme:
         theme = PATheme()

@@ -21,6 +21,7 @@ if "bpy" in locals():
     importlib.reload(PA_PT_ThemePanel)
     importlib.reload(PA_PT_ThemeEditingPanel)
     importlib.reload(PANewThemeOperator)
+    importlib.reload(PARefreshThemeListOperator)
 else:
     print("projectarrhythmia >> attempting module imports")
     from . import util
@@ -29,7 +30,7 @@ else:
     from .classes.PAControl import PA_PT_ContextControlPanel
     from .configuration import PA_AddonPrefs
     from .classes.themes.PAThemePanel import PA_PT_ThemePanel, PA_PT_ThemeEditingPanel
-    from .classes.themes.PAThemeOperators import PANewThemeOperator
+    from .classes.themes.PAThemeOperators import PANewThemeOperator, PARefreshThemeListOperator
 
     from .classes.themes.PAThemeHandler import PAThemeHandler
 
@@ -40,7 +41,8 @@ classes = [
     PA_AddonPrefs,
     PA_PT_ThemePanel,
     PA_PT_ThemeEditingPanel,
-    PANewThemeOperator
+    PANewThemeOperator,
+    PARefreshThemeListOperator
 ]
 
 from . import globals
