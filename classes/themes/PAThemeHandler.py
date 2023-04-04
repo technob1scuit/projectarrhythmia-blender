@@ -16,6 +16,8 @@ class PATheme():
     iconValue = None
     iconPath: str = None
 
+    scenePropertyIndex: int = None
+
     iconFolder: str = themeIconFolder
 
     def __init__(self) -> None:
@@ -24,47 +26,47 @@ class PATheme():
         self.themeData = {
             "name": "Unnamed theme",
             "id": randint(10000, 999999), # i have no idea what the limits are for the id lol
-            "gui": Colour().setFromRGBArray(prefs.defaultGUIColour),
-            "guiAccent": Colour().setFromRGBArray(prefs.defaultGUIAccentColour),
-            "bg": Colour().setFromRGBArray(prefs.defaultBGColour),
+            "gui": Colour().setFromRGBArray(prefs.defaultGUIColour, maximum=1.0),
+            "guiAccent": Colour().setFromRGBArray(prefs.defaultGUIAccentColour, maximum=1.0),
+            "bg": Colour().setFromRGBArray(prefs.defaultBGColour, maximum=1.0),
             "players": [
-                Colour().setFromRGBArray(prefs.defaultPlayerOneColour),
-                Colour().setFromRGBArray(prefs.defaultPlayerTwoColour),
-                Colour().setFromRGBArray(prefs.defaultPlayerThreeColour),
-                Colour().setFromRGBArray(prefs.defaultPlayerFourColour)
+                Colour().setFromRGBArray(prefs.defaultPlayerOneColour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultPlayerTwoColour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultPlayerThreeColour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultPlayerFourColour, maximum=1.0)
             ],
             "objects": [
-                Colour().setFromRGBArray(prefs.defaultObject0Colour),
-                Colour().setFromRGBArray(prefs.defaultObject1Colour),
-                Colour().setFromRGBArray(prefs.defaultObject2Colour),
-                Colour().setFromRGBArray(prefs.defaultObject3Colour),
-                Colour().setFromRGBArray(prefs.defaultObject4Colour),
-                Colour().setFromRGBArray(prefs.defaultObject5Colour),
-                Colour().setFromRGBArray(prefs.defaultObject6Colour),
-                Colour().setFromRGBArray(prefs.defaultObject7Colour),
-                Colour().setFromRGBArray(prefs.defaultObject8Colour)
+                Colour().setFromRGBArray(prefs.defaultObject0Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject1Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject2Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject3Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject4Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject5Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject6Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject7Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultObject8Colour, maximum=1.0)
             ],
             "fx": [
-                Colour().setFromRGBArray(prefs.defaultEffect0Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect1Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect2Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect3Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect4Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect5Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect6Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect7Colour),
-                Colour().setFromRGBArray(prefs.defaultEffect8Colour)
+                Colour().setFromRGBArray(prefs.defaultEffect0Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect1Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect2Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect3Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect4Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect5Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect6Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect7Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultEffect8Colour, maximum=1.0)
             ],
             "bgObjects": [
-                Colour().setFromRGBArray(prefs.defaultParallax0Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax1Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax2Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax3Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax4Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax5Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax6Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax7Colour),
-                Colour().setFromRGBArray(prefs.defaultParallax8Colour)
+                Colour().setFromRGBArray(prefs.defaultParallax0Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax1Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax2Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax3Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax4Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax5Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax6Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax7Colour, maximum=1.0),
+                Colour().setFromRGBArray(prefs.defaultParallax8Colour, maximum=1.0)
             ]
         }
 
@@ -96,8 +98,14 @@ class PATheme():
         globals.themeIcons.load(f"pa_theme_{name}", os.path.join(path), "IMAGE")
 
         self.iconValue = globals.themeIcons[f"pa_theme_{name}"].icon_id
+        
+        bpy.context.scene.themes[self.scenePropertyIndex].iconValue = self.iconValue
 
         return self
+    
+    def updateFromEditorValues(self, properties) -> PATheme:
+        self.themeData["name"] = properties.name
+        self.the
 
     def resetToDefaults(self) -> PATheme:
         self.themeData = PATheme().themeData
@@ -133,38 +141,42 @@ class PATheme():
         else:
             print(f"what- what is a {format}...??")
 
+        bpy.context.scene.themes[self.scenePropertyIndex].name = self.themeData["name"]
+
         return self
 
     def toLSTString(self) -> str:
         outputTheme = {
             "id": self.themeData["id"],
             "name": self.themeData["name"],
-            "gui": self.themeData["gui"],
-            "bg": self.themeData["bg"],
-            "players": self.themeData["players"],
-            "objs": self.themedata["objects"],
-            "bgs": self.themeData["bgObjects"]
+            "gui": self.themeData["gui"].getHex().upper(),
+            "bg": self.themeData["bg"].getHex().upper(),
+            "players": [a.getHex().upper() for a in self.themeData["players"]],
+            "objs": [a.getHex().upper() for a in self.themeData["objects"]],
+            "bgs": [a.getHex().upper() for a in self.themeData["bgObjects"]]
         }
 
-        return json.dumps(outputTheme)
+        return json.dumps(outputTheme, separators=(',', ':'))
     
     def toVGTString(self) -> str:
         outputTheme = {
             "name": self.themeData["name"],
-            "pla": self.themeData["players"],
-            "obj": self.themeData["objects"],
-            "fx": self.themeData["fx"],
-            "bg": self.themeData["bgObjects"],
-            "base_bg": self.themeData["bg"],
-            "base_gui": self.themeData["gui"],
-            "base_gui_accent": self.themeData["guiAccent"]
+            "pla": [a.getHex().upper() for a in self.themeData["players"]],
+            "obj": [a.getHex().upper() for a in self.themeData["objects"]],
+            "fx": [a.getHex().upper() for a in self.themeData["fx"]],
+            "bg": [a.getHex().upper() for a in self.themeData["bgObjects"]],
+            "base_bg": self.themeData["bg"].getHex().upper(),
+            "base_gui": self.themeData["gui"].getHex().upper(),
+            "base_gui_accent": self.themeData["guiAccent"].getHex().upper()
         }
 
-        return json.dumps(outputTheme)
+        return json.dumps(outputTheme, separators=(',', ':'))
 
 class PAThemeHandler():
     themeFolder: str
     loadedThemes: list[PATheme] = []
+
+    firstLoadComplete: bool = False
 
     def __init__(self, customPath: str = None) -> None:
         if (customPath == None):
@@ -207,8 +219,8 @@ class PAThemeHandler():
                 with open(os.path.join(self.themeFolder, theme)) as f:
                     content = f.read()
 
-                themeObj.readFromJSONString(content, format="lst")
                 themeObj.savedToDisk = True
+                themeObj.readFromJSONString(content, format="lst")
                 themeObj.generateIcon(os.path.splitext(theme)[0] + ".png")
                 debug(f"Loaded {theme}.")
             except Exception as e:
@@ -224,8 +236,8 @@ class PAThemeHandler():
                 with open(os.path.join(self.themeFolder, theme)) as f:
                     content = f.read()
 
-                themeObj.readFromJSONString(content, format="vgt")
                 themeObj.savedToDisk = True
+                themeObj.readFromJSONString(content, format="vgt")
                 themeObj.generateIcon(os.path.splitext(theme)[0] + ".png")
                 debug(f"Loaded {theme}.")
             except Exception as e:
@@ -241,6 +253,12 @@ class PAThemeHandler():
     def newTheme(self) -> PATheme:
         theme = PATheme()
         self.loadedThemes.append(theme)
+
+        item = bpy.context.scene.themes.add()
+        item.name = theme.themeData["name"]
+        item.loadedThemesIndex = len(self.loadedThemes) - 1
+        theme.scenePropertyIndex = len(bpy.context.scene.themes) - 1
+
         return theme
     
 if __name__ == "__main__":
