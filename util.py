@@ -1,6 +1,7 @@
 from __future__ import annotations
 from bpy.types import Operator
 from . import globals
+from random import randint
 
 def debug(message, op: Operator = None) -> None:
     if (globals.showDebug):
@@ -23,6 +24,14 @@ def error(message, op: Operator = None) -> None:
     if (op != None):
         op.report({ "ERROR" }, message)
 
+def genPAid() -> str:
+    output = ""
+    # i hate this id format
+    # like come on how many characters do you need lol
+    idKeys = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~!@#$%^&*_+{}|:<>?,./;'[]▓▒░▐▆▉☰☱☲☳☴☵☶☷►▼◄▬▩▨▧▦▥▤▣▢□■¤ÿòèµ¶™ßÃ®¾ð¥œ⁕(◠‿◠✿)"
+    for i in range(16):
+        output += idKeys[randint(0, len(idKeys) - 1)]
+    return output
 
 class Colour():
     value: int = 0

@@ -35,6 +35,8 @@ if "bpy" in locals():
     importlib.reload(PA_OT_SaveSelectedThemeAsVGTOperator)
 
     importlib.reload(PA_UL_ThemeList)
+
+    importlib.reload(PA_PT_LevelPanel)
 else:
     print("projectarrhythmia >> attempting module imports")
     from . import util
@@ -46,6 +48,8 @@ else:
     from .classes.themes.PAThemeOperators import PA_OT_NewThemeOperator, PA_OT_RefreshThemeListOperator, PA_OT_DeleteSelectedThemeOperator, PA_OT_SaveSelectedThemeAsLSTOperator, PA_OT_SaveSelectedThemeAsVGTOperator
 
     from .classes.themes.PAThemeHandler import PAThemeHandler
+
+    from .classes.levels.PALevelPanel import PA_PT_LevelPanel
 
 import bpy
 
@@ -69,6 +73,9 @@ classes = [
     PA_PT_ThemeEditingPanel,
     PA_OT_NewThemeOperator,
     PA_OT_RefreshThemeListOperator,
+
+    PA_PT_LevelPanel,
+
     PA_UL_ThemeList,
     PA_PG_ThemeProperties,
     PA_OT_DeleteSelectedThemeOperator,
